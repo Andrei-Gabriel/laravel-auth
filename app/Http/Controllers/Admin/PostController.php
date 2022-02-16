@@ -17,7 +17,7 @@ class PostController extends Controller
     {
         $posts = Post::all();
 
-        dd($posts);
+        return view("admin.posts.index", compact("posts"));
     }
 
     /**
@@ -47,9 +47,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view("admin.posts.show", compact("post"));
     }
 
     /**
