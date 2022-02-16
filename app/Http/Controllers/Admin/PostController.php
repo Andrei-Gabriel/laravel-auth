@@ -46,6 +46,13 @@ class PostController extends Controller
         ]);
 
         // Creazione del post
+        $data = $request->all();
+        
+        $newPost = new Post();
+        $newPost->title = $data["title"];
+        $newPost->content = $data["content"];
+        $newPost->published = isset($data["published"]) ? 1 : 0;
+        $newPost->save();
 
         // Redirect al post appena creato
 
