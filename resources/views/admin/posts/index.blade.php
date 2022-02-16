@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+    <div class="mb-3">
+        <a href="{{route("posts.create")}}"><button type="button" class="btn btn-success">Aggiungi un post</button></a>
+    </div>
     <table class="table">
         <thead>
             <tr>

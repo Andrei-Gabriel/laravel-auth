@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.posts.create");
     }
 
     /**
@@ -38,7 +38,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validazione dei dati
+        $request->validate([
+            "title" => "required|string|max:100",
+            "content" => "required",
+            "published" => "sometimes|accepted",
+        ]);
+
+        // Creazione del post
+
+        // Redirect al post appena creato
+
     }
 
     /**
