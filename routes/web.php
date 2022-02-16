@@ -19,4 +19,22 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+// Area privata - Backoffice
+/*
+    Dichiariamo delle rotte prefissate con admin: Route::prefix("admin")
+    Il namespace di questi controllers (es: PostController.php) saranno all'interno della cartella Admin: namespace("admin")
+    Ci evita di aggiungere un costruttore con il codice this->middleware("auth") per tutti i controller che vogliamo 
+        proteggere da autenticazione: middleware("auth")
+    group(function(){}); perché creiamo un gruppo che ha queste info di base
+*/
+Route::prefix("admin")->namespace("admin")->middleware("auth")->group(function(){
+    // Qui aggiungiamo le rotte di una risorsa a cui devone essere applicate le tre regole (riga 31)
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource("posts", "PostController");
+});
+
+// php artisan route:list
+// Route::get('/home', 'HomeController@index')->name('home'); (riga 33)
+// Spostiamo il file HomeComtroller dentro la cartella Admin
+// php artisan route:list
