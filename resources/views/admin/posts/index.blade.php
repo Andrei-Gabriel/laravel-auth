@@ -27,10 +27,10 @@
                         <a href="{{route("posts.show", $post->id)}}"><button type="button" class="btn btn-primary">Più info</button></a>
                     </td>
                     <td>
-                        <a href="{{"posts.update", $post->id}}"><button type="button" class="btn btn-warning">Modifica</button></a>
+                        <a href="{{route("posts.edit", $post->id)}}"><button type="button" class="btn btn-warning">Modifica</button></a>
                     </td>
                     <td>
-                        <a href="{{"posts.destroy", $post->id}}"><button type="button" class="btn btn-danger">Elimina</button></a>
+                        <a href="{{route("posts.destroy", $post->id)}}"><button type="button" class="btn btn-danger">Elimina</button></a>
                     </td>
                 </tr>
             @endforeach

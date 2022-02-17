@@ -86,9 +86,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view("admin.posts.edit", compact("post"));
     }
 
     /**
@@ -98,9 +98,43 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        // Validazione dei dati
+        $request->validate([
+            "title" => "required|string|max:100",
+            "content" => "required",
+            "published" => "sometimes|accepted",
+        ]);
+
+        // Aggiorno il post
+        $data = $request->all();
+
+        // se cambia il titolo aggiorno lo slug
+        if ($post->title != $data["title"]) {
+            $post->title = $data["title"];
+            $slug = Str::of($post->title)->slug("-");
+            if($slug != $post->slug) {
+                $count = 1;
+                while(Post::where("slug", $slug)->first()){
+                    $slug = Str::of($post->title)->slug("-")."-$count";
+                    $count++;
+                }
+                $post->slug = $slug;
+            }
+        }  
+        $post->content = $data["content"];
+
+        // if(isset($data["published"])) {
+        //     $post->published = true;
+        // } else {
+        //     $post->published = false;
+        // }
+        $post->published = isset($data["published"]);
+
+        $post->save();
+
+        return redirect()->route("posts.show", $post->id);
     }
 
     /**
