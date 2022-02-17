@@ -30,7 +30,11 @@
                         <a href="{{route("posts.edit", $post->id)}}"><button type="button" class="btn btn-warning">Modifica</button></a>
                     </td>
                     <td>
-                        <a href="{{route("posts.destroy", $post->id)}}"><button type="button" class="btn btn-danger">Elimina</button></a>
+                        <form action="{{route("posts.destroy", $post->id)}}" method="POST">
+                            @csrf
+                            @method("DELETE")
+                            <a href="{{route("posts.destroy", $post->id)}}"><button type="submit" class="btn btn-danger">Elimina</button></a>
+                        </form>
                     </td>
                 </tr>
             @endforeach

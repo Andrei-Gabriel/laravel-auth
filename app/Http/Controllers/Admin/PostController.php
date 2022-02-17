@@ -131,7 +131,7 @@ class PostController extends Controller
         //     $post->published = false;
         // }
         $post->published = isset($data["published"]);
-
+  
         $post->save();
 
         return redirect()->route("posts.show", $post->id);
@@ -143,8 +143,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route("posts.index");
     }
 }
