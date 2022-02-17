@@ -9,6 +9,12 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    // Creato array associativo con le regole di validazione per non avere del codice ripetuto
+    protected $ValidationsRules = [
+        "title" => "required|string|max:100",
+        "content" => "required",
+        "published" => "sometimes|accepted",
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -40,11 +46,13 @@ class PostController extends Controller
     public function store(Request $request)
     {
         // Validazione dei dati
-        $request->validate([
-            "title" => "required|string|max:100",
-            "content" => "required",
-            "published" => "sometimes|accepted",
-        ]);
+        $request->validate($this->ValidationsRules);
+    
+        // $request->validate([
+        //     "title" => "required|string|max:100",
+        //     "content" => "required",
+        //     "published" => "sometimes|accepted",
+        // ]);
 
         // Creazione del post
         $data = $request->all();
@@ -101,11 +109,12 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         // Validazione dei dati
-        $request->validate([
-            "title" => "required|string|max:100",
-            "content" => "required",
-            "published" => "sometimes|accepted",
-        ]);
+        $request->validate($this->ValidationsRules);
+        // $request->validate([
+        //     "title" => "required|string|max:100",
+        //     "content" => "required",
+        //     "published" => "sometimes|accepted",
+        // ]);
 
         // Aggiorno il post
         $data = $request->all();
@@ -114,6 +123,7 @@ class PostController extends Controller
         if ($post->title != $data["title"]) {
             $post->title = $data["title"];
             $slug = Str::of($post->title)->slug("-");
+            // Se lo slug generato è diverso dallo slug attualmente salvato nel db
             if($slug != $post->slug) {
                 $count = 1;
                 while(Post::where("slug", $slug)->first()){
